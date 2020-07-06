@@ -1,0 +1,17 @@
+{
+    "name": "pangzlab/dms-monitoring",
+    "description": "DMS Monitoring",
+    "type": "project",
+    "authors": [
+        {
+            "name": "pangz-lab",
+            "email": "pangz.lab@gmail.com"
+        }
+    ],    
+    "autoload": {
+        "psr-4": {
+            "PangzLab\\DMSMonitoring\\": "src/"
+        }
+    },
+    "require": {}
+}
