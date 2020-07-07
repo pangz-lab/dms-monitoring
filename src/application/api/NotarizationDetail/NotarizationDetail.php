@@ -23,17 +23,17 @@ class NotarizationDetail
     public function __construct(DependencyInjection $di)
     {
         $this->di = $di;
-        $this->services["collectionService"]  = new NotaryCollectionService($this->di);
-        $this->browserParams = $_GET;
+        $this->services["collectionService"] = new NotaryCollectionService($this->di);
+        $this->browserParams = $_GET ?? [];
     }
 
     public function execute($params)
     {
         $userParam     = $this->browserParams;
-        $draw          = (int)$userParam["draw"]   ?? 1;
-        $start         = (int)$userParam["start"]  ?? 0;
-        $length        = (int)$userParam["length"] ?? 10;
-        $orderByColumn = (int)$userParam["order"][0]["column"] ?? 3;
+        $draw          = (int)($userParam["draw"]   ?? 1);
+        $start         = (int)($userParam["start"]  ?? 0);
+        $length        = (int)($userParam["length"] ?? 10);
+        $orderByColumn = (int)($userParam["order"][0]["column"] ?? 3);
         $orderBy       = $userParam["order"][0]["dir"] ?? "desc";
         $params = [
             "LIMIT"     => [$start, $length],
@@ -58,8 +58,8 @@ class NotarizationDetail
 
     public function prepareSearchCondition(): string
     {
-        $global    = $this->preparePerColumnsSearchCondition();
-        $perColumn = $this->prepareGlobalSearchCondition();
+        $global    = $this->prepareGlobalSearchCondition();
+        $perColumn = $this->preparePerColumnsSearchCondition();
         if(!empty($global) && !empty($perColumn)) {
             return "(".$global.") AND ".$perColumn;
         }
@@ -78,7 +78,7 @@ class NotarizationDetail
         $count           = count($this->columns);
         $columnValue = "";
         for($searchKey = 0; $searchKey < $count; $searchKey++) {
-            $columnValue = trim($userParam["columns"][$searchKey]["search"]["value"]);
+            $columnValue = trim($userParam["columns"][$searchKey]["search"]["value"] ?? "");
             if(!empty($columnValue)) {
                 $searchCondition[] = $this->columns[$searchKey]." LIKE '%$columnValue%'";
             }
@@ -94,7 +94,7 @@ class NotarizationDetail
     private function prepareGlobalSearchCondition(): string
     {
         $condition = [];
-        $searchKey = trim($this->browserParams["search"]["value"]);
+        $searchKey = trim($this->browserParams["search"]["value"] ?? "");
         if($searchKey == "") { return ""; }
 
         foreach($this->columns as $name) {

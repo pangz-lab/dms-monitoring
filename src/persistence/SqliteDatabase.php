@@ -15,7 +15,7 @@ class SqliteDatabase
         $this->dbPath = $dbFilePath;
     }
 
-    public function connect(): object
+    public function connect(): SqliteDatabase
     {
         $this->db = new \SQLite3($this->dbPath);
         return $this;

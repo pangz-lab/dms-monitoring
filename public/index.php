@@ -1,15 +1,10 @@
 <?php
-define("SEP","\\");
+define("SEP","/");
 define("BASE_DIR", dirname(__FILE__, 2).SEP);
 define("BASE_DIR_SRC", BASE_DIR."src");
 
 require_once(BASE_DIR.'/vendor/autoload.php');
 require_once(BASE_DIR.'/public/bootstrap.php');
-
-use PangzLab\DMSMonitoring\Config\ApiSetting;
-use PangzLab\DMSMonitoring\Infra\DependencyInjection;
-use PangzLab\DMSMonitoring\Persistence\SqliteDatabase;
-use PangzLab\DMSMonitoring\Persistence\SqliteDatabaseOperation;
 
 $callType = (php_sapi_name() == "cli")? "cli": "web";
 
@@ -31,6 +26,11 @@ if(!isset(APP_COLLECTION[$appType][$appName])) {
     print json_encode(["error" => "Unregistered Appplication"]);
     exit;
 }
+
+use PangzLab\DMSMonitoring\Config\ApiSetting;
+use PangzLab\DMSMonitoring\Infra\DependencyInjection;
+use PangzLab\DMSMonitoring\Persistence\SqliteDatabase;
+use PangzLab\DMSMonitoring\Persistence\SqliteDatabaseOperation;
 
 $sqliteDb = new SqliteDatabase(ApiSetting::DB_PATH);
 $di = new DependencyInjection([

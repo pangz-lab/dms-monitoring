@@ -28,9 +28,4 @@ class NotaryFileDataCollection
             $this->services["batchDataService"]->setCompletedStatus($currentBatch->id());
         }
     }
-
-    private function saveLastRow(string $headerTxId): void
-    {
-        $this->services["batchDataDLService"]->saveLastNotaryRow($headerTxId);
-    }
 }
